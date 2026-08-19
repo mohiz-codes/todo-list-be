@@ -7,11 +7,13 @@ const {
   deleteTodo,
 } = require("../Controllers/todo.controller");
 
+const authMiddleware = require("../middleware/auth.middleware");
+
 const router = express.Router();
 
-router.get("/todos", getTodos);
-router.post("/todos", createTodo);
-router.put("/todos/:id", updateTodo);
-router.delete("/todos/:id", deleteTodo);
+router.get("/todos", authMiddleware, getTodos);
+router.post("/todos", authMiddleware, createTodo);
+router.put("/todos/:id", authMiddleware, updateTodo);
+router.delete("/todos/:id", authMiddleware, deleteTodo);
 
 module.exports = router;

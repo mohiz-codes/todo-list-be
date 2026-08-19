@@ -1,5 +1,4 @@
 
-
 const mongoose = require("mongoose")
 
 
@@ -11,6 +10,11 @@ const todoscheme = mongoose.Schema({
     status : {
         type : String,
         default : false,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     }
 },{timestamps: true}
 )

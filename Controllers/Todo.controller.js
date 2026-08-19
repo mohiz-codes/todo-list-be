@@ -3,7 +3,9 @@ const Todo = require("../Models/Todo.model");
 // READ
 const getTodos = async (req, res) => {
   try {
-    const todos = await Todo.find();
+    const todos = await Todo.find({
+      user: req.user.id, // Filter todos by the authenticated user's ID
+    });
 
     res.status(200).json(todos);
   } catch (error) {
@@ -17,6 +19,8 @@ const getTodos = async (req, res) => {
 const createTodo = async (req, res) => {
   const { text, status } = req.body;
 
+  console.log('[+] req.user : ', req.user);
+
   if (!text || text.trim() === "") {
     return res.status(400).json({
       message: "error text invalid",
@@ -24,7 +28,7 @@ const createTodo = async (req, res) => {
   }
 
   try {
-    const todos = await Todo.create(req.body);
+    const todos = await Todo.create({ text, status, user: req.user.id });
 
     res.status(201).json({
       data: todos,
